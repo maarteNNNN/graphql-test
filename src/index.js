@@ -2,46 +2,8 @@ const express = require('express')
 const cors = require('cors')
 const graphqlHTTP = require('express-graphql')
 const { buildSchema } = require('graphql')
-
-const passengers = [
-  {
-    id: 0,
-    name: 'Maarten',
-    flightIds: [4],
-  },
-  {
-    id: 1,
-    name: 'Johan',
-    flightIds: [1, 2, 3, 4],
-  },
-]
-
-const flights = [
-  {
-    id: 1,
-    departureIata: 'BRU',
-    arrivalIata: 'CNF',
-    flightDuration: 60,
-  },
-  {
-    id: 2,
-    departureIata: 'FRA',
-    arrivalIata: 'MIL',
-    flightDuration: 20,
-  },
-  {
-    id: 3,
-    departureIata: 'LUX',
-    arrivalIata: 'LYN',
-    flightDuration: 30,
-  },
-  {
-    id: 4,
-    departureIata: 'GRU',
-    arrivalIata: 'CNF',
-    flightDuration: 120,
-  },
-]
+const passengers = require('./db/passengers')
+const flights = require('./db/flights')
 
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(`
@@ -74,6 +36,7 @@ const root = {
 
   passengers: () =>
     passengers.map(element => {
+      console.log(element)
       return {
         ...element,
         flights: flights.filter(

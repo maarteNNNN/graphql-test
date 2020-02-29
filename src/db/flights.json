@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "departureIata": "BRU",
+    "arrivalIata": "CNF",
+    "flightDuration": 60
+  },
+  {
+    "id": 2,
+    "departureIata": "FRA",
+    "arrivalIata": "MIL",
+    "flightDuration": 20
+  },
+  {
+    "id": 3,
+    "departureIata": "LUX",
+    "arrivalIata": "LYN",
+    "flightDuration": 30
+  },
+  {
+    "id": 4,
+    "departureIata": "GRU",
+    "arrivalIata": "CNF",
+    "flightDuration": 120
+  }
+]

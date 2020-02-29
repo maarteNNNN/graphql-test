@@ -1,0 +1,12 @@
+[
+  {
+    "id": 0,
+    "name": "Maarten",
+    "flightIds": [4]
+  },
+  {
+    "id": 1,
+    "name": "Johan",
+    "flightIds": [1, 2, 3, 4]
+  }
+]
