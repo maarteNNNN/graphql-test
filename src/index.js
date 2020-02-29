@@ -1,77 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const graphqlHTTP = require('express-graphql')
-const { buildSchema } = require('graphql')
-const passengers = require('./db/passengers')
-const flights = require('./db/flights')
-
-// Construct a schema, using GraphQL schema language
-const schema = buildSchema(`
-  type Query {
-    hello(name: String!): String!
-    passengers: [Passenger!]!
-    passenger(id: Int!): Passenger!
-    flights: [Flight!]!
-    flight(id: Int!): Flight!
-  }
-
-  type Passenger {
-    id: Int!
-    name: String!
-    flights: [Flight!]!
-  }
-
-  type Flight {
-    id: Int!
-    departureIata: String!
-    arrivalIata: String!
-    flightDuration: Int!
-    passengers: [Passenger]
-  }
-`)
-
-// The root provides a resolver function for each API endpoint
-const root = {
-  hello: data => `Hello world! ${data.name}`,
-
-  passengers: () =>
-    passengers.map(element => {
-      console.log(element)
-      return {
-        ...element,
-        flights: flights.filter(
-          el => element.flightIds.indexOf(el.id) != -1 && el,
-        ),
-      }
-    }),
-
-  passenger: data => {
-    const id = data.id
-
-    return {
-      id: passengers[id].id,
-      name: passengers[id].name,
-      flights: flights.filter(
-        el => passengers[id].flightIds.indexOf(el.id) != -1 && el,
-      ),
-    }
-  },
-
-  flights: () => {
-    return flights.map(element => {
-      return {
-        ...element,
-        passengers: passengers.filter(
-          el => el.flightIds.indexOf(element.id) != -1 && el,
-        ),
-      }
-    })
-  },
-
-  flight: data => {
-    return flights.filter(el => el.id === data.id && el)
-  },
-}
+const schema = require('./schema/schema')
+const resolvers = require('./resolvers/resolvers')
 
 const app = express()
 
@@ -81,7 +12,7 @@ app.use(
   '/graphql',
   graphqlHTTP({
     schema: schema,
-    rootValue: root,
+    rootValue: resolvers,
     graphiql: true,
   }),
 )
